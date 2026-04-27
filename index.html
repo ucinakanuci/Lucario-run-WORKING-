@@ -1,55 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lucario vs Greninja</title>
+    <title>Lucario vs Greninja - Your Custom Links</title>
     <style>
         body { margin: 0; background: #222; overflow: hidden; font-family: sans-serif; }
         #game-container { position: relative; width: 100vw; height: 100vh; background: #333; border-bottom: 5px solid #555; }
         
-        /* Lucario (The Player) */
         .player {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             left: 50px;
-            bottom: 0px; 
-            /* border: 2px solid red;  <-- Remove this to hide the red box */
+            bottom: 0px;
+            border: 2px solid red; /* Lucario Hitbox */
         }
 
-        /* Greninja (The Obstacle) */
         .enemy {
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             right: -100px;
             bottom: 0px;
+            border: 2px solid blue; /* Greninja Hitbox */
         }
 
-        /* This makes the sprites look sharp and fit the box */
-        img { width: 100%; height: 100%; image-rendering: pixelated; }
+        img { width: 100%; height: 100%; display: block; }
     </style>
 </head>
 <body>
 
 <div id="game-container">
     <div id="lucario-box" class="player">
-        <!-- CORRECTED: Full direct link to Lucario GIF -->
-        <img src="https://githubusercontent.com" alt="Lucario">
+        <!-- Using your Lucario link -->
+        <img src="https://imgbin.com" alt="Lucario">
     </div>
 </div>
 
 <script>
     const lucario = document.getElementById('lucario-box');
     const container = document.getElementById('game-container');
-    
     let isJumping = false;
     let position = 0;
 
-    // --- 1. JUMP LOGIC ---
     function jump() {
         if (isJumping) return;
         isJumping = true;
-        
         let upTimer = setInterval(() => {
             if (position >= 150) {
                 clearInterval(upTimer);
@@ -58,52 +53,38 @@
                         clearInterval(downTimer);
                         isJumping = false;
                     }
-                    position -= 5;
+                    position -= 8;
                     lucario.style.bottom = position + 'px';
                 }, 20);
             }
-            position += 15;
+            position += 20;
             lucario.style.bottom = position + 'px';
         }, 20);
     }
 
-    document.addEventListener('keydown', (event) => {
-        if (event.code === 'Space') jump();
-    });
+    document.addEventListener('keydown', (e) => { if (e.code === 'Space') jump(); });
 
-    // --- 2. ENEMY LOGIC (Spawn Greninjas) ---
     function spawnGreninja() {
         const enemy = document.createElement('div');
         enemy.classList.add('enemy');
-        // CORRECTED: Full direct link to Greninja GIF
-        enemy.innerHTML = `<img src="https://githubusercontent.com">`;
+        // Using your Greninja link
+        enemy.innerHTML = `<img src="https://cleanpng.com">`;
         container.appendChild(enemy);
 
         let enemyPos = -100;
         let moveTimer = setInterval(() => {
             enemyPos += 8;
             enemy.style.right = enemyPos + 'px';
-
             if (enemyPos > window.innerWidth) {
                 clearInterval(moveTimer);
                 container.removeChild(enemy);
             }
-
-            // Simple Collision Detection
-            let l = lucario.getBoundingClientRect();
-            let e = enemy.getBoundingClientRect();
-
-            if (l.right > e.left && l.left < e.right && l.bottom > e.top) {
-                console.log("GAME OVER");
-            }
         }, 20);
-
-        setTimeout(spawnGreninja, Math.random() * 2000 + 1000);
+        setTimeout(spawnGreninja, Math.random() * 2000 + 1500);
     }
-
     spawnGreninja();
 </script>
-
 </body>
 </html>
+
 
